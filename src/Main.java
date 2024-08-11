@@ -12,8 +12,12 @@ public class Main extends JFrame {
 
 
     class Canvas extends JPanel {
+
+       
+
         public Canvas() {
             setPreferredSize(new Dimension(720, 720)); 
+            
         }
         
 
@@ -27,16 +31,49 @@ public class Main extends JFrame {
         this.setVisible(true);
        
     }
+    private int numTrails = 200;
+    private double[][] mPoints = new double[numTrails][2];
+    private int mPointIndex = 0;
+    
+    //private boolean initPaint = true;
+    
+    Grid grid = new Grid();
+
     @Override
     public void paint(Graphics g) {
-        Grid grid = new Grid(g);
+        
+        
+        
+        Point latestMPoint = getMousePosition();
 
+        
+        mPoints[mPointIndex][0] = latestMPoint.getX();
+        mPoints[mPointIndex][1] = latestMPoint.getY();
+
+        mPointIndex =  (mPointIndex + 1) % numTrails;
+
+        
+
+        Color transparent = new Color(1,0,0, 0.1f);
+        //g.setColor(Color.WHITE);
+        //g.fillRect(0,0,720,720);
+        grid.draw(g);
+        g.setColor(transparent);
+        
+        for (int i = 0; i < numTrails; i++) {
+            g.fillOval((int) mPoints[i][0] - 10, (int) mPoints[i][1] - 10,20,20);
+        }
+        //System.out.println();
 
 
     }
 
     public void run() {
-        this.repaint();
+        
+        while (true) {
+            this.repaint();
+        }
+       
     }
 /*     public void paint() {
 
